@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <title>Materialize</title>
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <style>
+            
+        </style>
+    </head>
+    <body id="body">
+        <div class="navbar-fixed">
+            <nav class="nav-wraper grey darken-3">
+                <a href="#" data-target="slide-out" class="left sidenav-trigger" style="display:block">
+                    <i class="material-icons">menu</i>
+                </a>
+                <div class="container">
+                    <!-- <a href="#" class="brand-logo">JARVIS</a> -->
+                    <a href="#" class="sidenav">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="right hide-on-small-only" id="tasksNav">
+                        <li onclick="handleTasksList('task-list')"><a href="#">Tasks</a></li>
+                        <li onclick="handleTasksList('assignment-list')"><a href="#">Assignment</a></li>
+                        <li onclick="handleTasksList('goal-list')"><a href="#">Goals</a></li>
+                        <li onclick="addList()" style="float:right"><a href="#" class="circle"><i class="material-icons circle">add</i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container taskslist" id="task-list">
+            <ul class="collection with-header">
+                <li class="collection-header"><h5>Tasks list</h5></li>
+                <li class="collection-item avatar">
+                    <i class="material-icons circle">assignment</i>
+                    <span class="title">Finish this task</span>
+                    <p>This is your first task nd finish it as soon as possible</p>
+                </li>
+            </ul>
+        </div>
+        <div class="container taskslist" id="assignment-list" style="display:none">
+            <ul class="collection with-header">
+                <li class="collection-header"><h5>Assignments list</h5></li>
+                <li class="collection-item avatar">
+                    <i class="material-icons circle">assignment</i>
+                    <span class="title">Finish this task</span>
+                    <p>This is your first task nd finish it as soon as possible</p>
+                </li>
+            </ul>
+        </div>
+        <div class="container taskslist" id="goal-list" style="display:none">
+            <ul class="collection with-header">
+                <li class="collection-header"><h5>Goals list</h5></li>
+                <li class="collection-item avatar">
+                    <i class="material-icons circle">assignment</i>
+                    <span class="title">Finish this task</span>
+                    <p>This is your first assignment nd finish it as soon as possible</p>
+                </li>
+            </ul>
+        </div>
+        <ul id="slide-out" class="sidenav">
+            <li><div class="user-view">
+            <div class="background" style="background:#424242">
+            </div>
+            <a href="#user"><img class="circle" src="img_avatar.png"></a>
+            <a href="#name"><span class="white-text name">John Doe</span></a>
+            <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div></li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        </ul>
+        <div class="container" id="form-container" style="display:none;margin-top: 50px;">
+            <h6 style="margin:30px;">Add your task list</h6>
+            <div class="container" style="margin:30px" id="list-form">
+                <div class="input-field">
+                    <label for="task">Enter task list name...</label>
+                    <input type="text" id="task" name="task">
+                </div>
+                <div class="input-field">
+                    <button class="btn" onclick="handleNewList()">Submit</button>
+                </div>
+            </div>
+        </div>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>    
+        <script>
+            $(document).ready(function(){
+                $('.sidenav').sidenav();
+            });
+        </script>
+    </body>
+    <script>
+        var count = 3;
+        const form = document.getElementById("list-form");
+        const tasks = document.getElementById("task-list");
+        const body = document.getElementById("body");
+        const divs=document.getElementsByClassName("container taskslist");
+        function handleTasksList(s){
+            document.getElementById("form-container").style="display:none";
+            document.getElementById(s).style="display:block";
+            for(i=0;i<divs.length;i++){
+                if(divs[i].id!=s){
+                    divs[i].style="display:none";
+                }
+            }
+        }
+        function addList(){
+            if(count<6){
+                console.log("add a task list")
+                for(i=0;i<divs.length;i++)
+                    divs[i].style="display:none";
+                document.getElementById("form-container").style="display:block";
+            }
+        }
+        function handleNewList(){
+            count++;
+            console.log("form submit handler");
+            document.getElementById("form-container").style="display:none";
+            tasks.style="display:block";
+            let task=document.getElementById("task");
+            tasksList=document.getElementById("tasksNav");
+            tasksList.innerHTML+=`<li onclick="handleTasksList('${task.value}')"><a href="#">${task.value}</a></li>`;
+            new_div=`
+                <div class="container taskslist" id="${task.value}" style="display:none">
+                    <ul class="collection with-header">
+                        <li class="collection-header"><h5>${task.value}</h5></li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">assignment</i>
+                            <span class="title">Finish this task</span>
+                            <p>This is your first customised tasks list nd finish it as soon as possible</p>
+                        </li>
+                    </ul>
+                </div>
+            `;
+            body.innerHTML+=new_div;
+            task.value="";
+        }
+    </script>
+</html>
