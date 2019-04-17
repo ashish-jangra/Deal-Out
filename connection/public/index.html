@@ -5,7 +5,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <style>
-            
+            .input-field input[type=text]:focus {
+                border-bottom: 5px solid #212121;
+                box-shadow: 0 1px 0 0 #000;
+            }
         </style>
     </head>
     <body id="body">
@@ -29,7 +32,7 @@
             </nav>
         </div>
         <div class="container taskslist" id="task-list">
-            <ul class="collection with-header">
+            <ul class="collection with-header" id="Tasks">
                 <li class="collection-header"><h5>Tasks list</h5></li>
                 <li class="collection-item avatar">
                     <i class="material-icons circle">assignment</i>
@@ -39,7 +42,7 @@
             </ul>
         </div>
         <div class="container taskslist" id="assignment-list" style="display:none">
-            <ul class="collection with-header">
+            <ul class="collection with-header" id="Assignments">
                 <li class="collection-header"><h5>Assignments list</h5></li>
                 <li class="collection-item avatar">
                     <i class="material-icons circle">assignment</i>
@@ -49,7 +52,7 @@
             </ul>
         </div>
         <div class="container taskslist" id="goal-list" style="display:none">
-            <ul class="collection with-header">
+            <ul class="collection with-header" id="Goals">
                 <li class="collection-header"><h5>Goals list</h5></li>
                 <li class="collection-item avatar">
                     <i class="material-icons circle">assignment</i>
@@ -57,6 +60,11 @@
                     <p>This is your first assignment nd finish it as soon as possible</p>
                 </li>
             </ul>
+        </div>
+        <div class="input-field container">
+            <input type="text" id="quick-task-title" placeholder="Enter a new task title">
+            <input type="text" id="quick-task-description" placeholder="Enter task description">
+            <button class="btn black white-text" onclick="addNewQuickTask()">Add</button>
         </div>
         <ul id="slide-out" class="sidenav">
             <li><div class="user-view">
@@ -99,7 +107,11 @@
         const tasks = document.getElementById("task-list");
         const body = document.getElementById("body");
         const divs=document.getElementsByClassName("container taskslist");
+        const quick_task_title=document.getElementById("quick-task-title");
+        const quick_task_description=document.getElementById("quick-task-description");
+        var activeListId = "task-list";
         function handleTasksList(s){
+            activeListId=s;
             document.getElementById("form-container").style="display:none";
             document.getElementById(s).style="display:block";
             for(i=0;i<divs.length;i++){
@@ -110,7 +122,7 @@
         }
         function addList(){
             if(count<6){
-                console.log("add a task list")
+                console.log("add a task list");
                 for(i=0;i<divs.length;i++)
                     divs[i].style="display:none";
                 document.getElementById("form-container").style="display:block";
@@ -138,6 +150,25 @@
             `;
             body.innerHTML+=new_div;
             task.value="";
+        }
+        quick_task_description.addEventListener("keyup",function(event){
+            if(event.keyCode === 13){
+                addNewQuickTask();
+            }
+        });
+        function addNewQuickTask(){
+            let tlist = document.getElementById(activeListId).children[0];
+            console.log("add new quick task to list",tlist.id);
+            let new_task=`
+                <li class="collection-item avatar">
+                    <i class="material-icons circle">assignment</i>
+                    <span class="title">${quick_task_title.value}</span>
+                    <p>${quick_task_description.value}</p>
+                </li>
+            `;
+            tlist.innerHTML+=new_task;
+            quick_task_title.value="";
+            quick_task_description.value="";
         }
     </script>
 </html>
