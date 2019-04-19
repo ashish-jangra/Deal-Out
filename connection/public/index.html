@@ -9,9 +9,29 @@
                 border-bottom: 5px solid #212121;
                 box-shadow: 0 1px 0 0 #000;
             }
+            body {
+                display: flex;
+                min-height: 100vh;
+                flex-direction: column;
+            }
+
+            main {
+                flex: 1 0 auto;
+            }
         </style>
     </head>
-    <body id="body">
+    <body>
+        <style>
+            .quick-task{
+                position:fixed;
+                bottom:40px; 
+                width:66%; 
+                left:16.5%; 
+                opacity:1; 
+                background: #ffffff; 
+                margin-top:10px;
+            }
+        </style>
         <div class="navbar-fixed">
             <nav class="nav-wraper grey darken-3">
                 <a href="#" data-target="slide-out" class="left sidenav-trigger" style="display:block">
@@ -31,42 +51,64 @@
                 </div>
             </nav>
         </div>
-        <div class="container taskslist" id="task-list">
-            <ul class="collection with-header" id="Tasks">
-                <li class="collection-header"><h5>Tasks list</h5></li>
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">assignment</i>
-                    <span class="title">Finish this task</span>
-                    <p>This is your first task nd finish it as soon as possible</p>
-                </li>
-            </ul>
+        <div id="body" style="padding:30px; max-height:500px; overflow-y: scroll; overflow-x:hidden;">
+            <div class="container taskslist" id="task-list">
+                <ul class="collection with-header" id="Tasks">
+                    <li class="collection-header"><h5>Tasks list</h5></li>
+                    <div>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">assignment</i>
+                            <span class="title">Finish this task</span>
+                            <p>This is your first task nd finish it as soon as possible</p>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">assignment</i>
+                            <span class="title">Finish this task</span>
+                            <p>This is your first task nd finish it as soon as possible</p>
+                        </li>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">assignment</i>
+                            <span class="title">Finish this task</span>
+                            <p>This is your first task nd finish it as soon as possible</p>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <div class="container taskslist" id="assignment-list" style="display:none">
+                <ul class="collection with-header" id="Assignments">
+                    <li class="collection-header"><h5>Assignments list</h5></li>
+                    <div>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">assignment</i>
+                            <span class="title">Finish this task</span>
+                            <p>This is your first task nd finish it as soon as possible</p>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+            <div class="container taskslist" id="goal-list" style="display:none">
+                <ul class="collection with-header" id="Goals">
+                    <li class="collection-header"><h5>Goals list</h5></li>
+                    <div>
+                        <li class="collection-item avatar">
+                            <i class="material-icons circle">assignment</i>
+                            <span class="title">Finish this task</span>
+                            <p>This is your first task nd finish it as soon as possible</p>
+                        </li>
+                    </div>
+                </ul>
+            </div>
         </div>
-        <div class="container taskslist" id="assignment-list" style="display:none">
-            <ul class="collection with-header" id="Assignments">
-                <li class="collection-header"><h5>Assignments list</h5></li>
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">assignment</i>
-                    <span class="title">Finish this task</span>
-                    <p>This is your first task nd finish it as soon as possible</p>
-                </li>
-            </ul>
+        <div class="footer container quick-task">
+            <label for="quick-task-title">Enter a new task title</label>
+            <input type="text" id="quick-task-title" placeholder="">
+            <!-- <input type="text" id="quick-task-description" placeholder="Enter task description"> -->
+            <!-- <button class="btn-floating z-depth-0" style="position:absolute; right:0; top:0; background: white; " onclick="addNewQuickTask()"><i class="material-icons" style="color:#212121">send</i></button> -->
         </div>
-        <div class="container taskslist" id="goal-list" style="display:none">
-            <ul class="collection with-header" id="Goals">
-                <li class="collection-header"><h5>Goals list</h5></li>
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">assignment</i>
-                    <span class="title">Finish this task</span>
-                    <p>This is your first assignment nd finish it as soon as possible</p>
-                </li>
-            </ul>
-        </div>
-        <div class="input-field container">
-            <input type="text" id="quick-task-title" placeholder="Enter a new task title">
-            <input type="text" id="quick-task-description" placeholder="Enter task description">
-            <button class="btn black white-text" onclick="addNewQuickTask()">Add</button>
-        </div>
-        <ul id="slide-out" class="sidenav">
+        <ul id="slide-out" class="sidenav" id="sidenav">
+            <li class="btn-floating right circle grey darken-3 z-depth-0" onclick="closeSideNav()" style="postion:relative; top:10px; right:10px;">
+                <i class="material-icons">close</i>
+            </li>
             <li><div class="user-view">
             <div class="background" style="background:#424242">
             </div>
@@ -78,17 +120,17 @@
             <li><a href="#!">Second Link</a></li>
             <li><div class="divider"></div></li>
             <li><a class="subheader">Subheader</a></li>
-            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+            <li><a class="waves-effect" href="#!">Logout</a></li>
         </ul>
         <div class="container" id="form-container" style="display:none;margin-top: 50px;">
             <h6 style="margin:30px;">Add your task list</h6>
             <div class="container" style="margin:30px" id="list-form">
                 <div class="input-field">
                     <label for="task">Enter task list name...</label>
-                    <input type="text" id="task" name="task">
+                    <input type="text" id="task" name="task" autofocus>
                 </div>
                 <div class="input-field">
-                    <button class="btn" onclick="handleNewList()">Submit</button>
+                    <button class="btn grey darken-3" onclick="handleNewList()">Submit</button>
                 </div>
             </div>
         </div>
@@ -103,6 +145,7 @@
     </body>
     <script>
         var count = 3;
+        const task = document.getElementById("task");
         const form = document.getElementById("list-form");
         const tasks = document.getElementById("task-list");
         const body = document.getElementById("body");
@@ -110,7 +153,14 @@
         const quick_task_title=document.getElementById("quick-task-title");
         const quick_task_description=document.getElementById("quick-task-description");
         var activeListId = "task-list";
+        quick_task_title.focus();
+        function closeSideNav(){
+            console.log("Close sidenav");
+            $('.sidenav').sidenav('close');
+        }
         function handleTasksList(s){
+            document.getElementsByClassName("quick-task")[0].style="display:block";
+            quick_task_title.focus();
             activeListId=s;
             document.getElementById("form-container").style="display:none";
             document.getElementById(s).style="display:block";
@@ -122,53 +172,69 @@
         }
         function addList(){
             if(count<6){
+                document.getElementsByClassName("footer")[0].style="display:none";
                 console.log("add a task list");
                 for(i=0;i<divs.length;i++)
                     divs[i].style="display:none";
                 document.getElementById("form-container").style="display:block";
+                task.focus();
             }
         }
+        task.addEventListener("keyup",function(event){
+            if(event.keyCode == 13)
+                handleNewList();
+        });
         function handleNewList(){
+            console.log(document.getElementById("task")) ;
+            if(task.value == "")
+               return;
             count++;
             console.log("form submit handler");
             document.getElementById("form-container").style="display:none";
             tasks.style="display:block";
-            let task=document.getElementById("task");
+            document.getElementsByClassName("footer")[0].style="display:block";
             tasksList=document.getElementById("tasksNav");
             tasksList.innerHTML+=`<li onclick="handleTasksList('${task.value}')"><a href="#">${task.value}</a></li>`;
             new_div=`
                 <div class="container taskslist" id="${task.value}" style="display:none">
                     <ul class="collection with-header">
                         <li class="collection-header"><h5>${task.value}</h5></li>
-                        <li class="collection-item avatar">
-                            <i class="material-icons circle">assignment</i>
-                            <span class="title">Finish this task</span>
-                            <p>This is your first customised tasks list nd finish it as soon as possible</p>
-                        </li>
+                        <div>
+                            <li class="collection-item avatar">
+                                <i class="material-icons circle">assignment</i>
+                                <span class="title">Finish this task</span>
+                                <p>This is your first task nd finish it as soon as possible</p>
+                            </li>
+                        </div>
                     </ul>
                 </div>
             `;
             body.innerHTML+=new_div;
             task.value="";
+
         }
-        quick_task_description.addEventListener("keyup",function(event){
+        quick_task_title.addEventListener("keyup",function(event){
             if(event.keyCode === 13){
                 addNewQuickTask();
             }
         });
         function addNewQuickTask(){
+            if(!quick_task_title.value)
+                return;
             let tlist = document.getElementById(activeListId).children[0];
             console.log("add new quick task to list",tlist.id);
             let new_task=`
                 <li class="collection-item avatar">
                     <i class="material-icons circle">assignment</i>
                     <span class="title">${quick_task_title.value}</span>
-                    <p>${quick_task_description.value}</p>
                 </li>
             `;
-            tlist.innerHTML+=new_task;
+            //tlist.innerHTML+=new_task;
+            tlc= tlist.children[1];
+            tlc.innerHTML = new_task + tlc.innerHTML;
             quick_task_title.value="";
-            quick_task_description.value="";
+            quick_task_title.focus();
+            quick_task_title.select();
         }
     </script>
 </html>
