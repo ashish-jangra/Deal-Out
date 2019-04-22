@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Materialize</title>
+        <title>ToDo</title>
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -32,6 +32,9 @@
                 margin-top:10px;
             }
         </style>
+        <button class="btn-floating btn-large" style="position: fixed; bottom: 40px;right: 40px;" onclick="add_task()" id="add_task_button">
+            <i class="material-icons">add</i>
+        </button>
         <div class="navbar-fixed">
             <nav class="nav-wraper grey darken-3">
                 <a href="#" data-target="slide-out" class="left sidenav-trigger" style="display:block">
@@ -56,20 +59,13 @@
                 <ul class="collection with-header" id="Tasks">
                     <li class="collection-header"><h5>Tasks list</h5></li>
                     <div>
-                        <li class="collection-item avatar">
-                            <i class="material-icons circle">assignment</i>
-                            <span class="title">Finish this task</span>
-                            <p>This is your first task nd finish it as soon as possible</p>
-                        </li>
-                        <li class="collection-item avatar">
-                            <i class="material-icons circle">assignment</i>
-                            <span class="title">Finish this task</span>
-                            <p>This is your first task nd finish it as soon as possible</p>
-                        </li>
-                        <li class="collection-item avatar">
-                            <i class="material-icons circle">assignment</i>
-                            <span class="title">Finish this task</span>
-                            <p>This is your first task nd finish it as soon as possible</p>
+                        <li class="collection-item">
+                            <div>
+                                <label id="tasks0">
+                                    <input type="checkbox" class="filled-in" onchange="complete_task('tasks0')" value="Task1">
+                                    <span>Task1</span>
+                                </label>
+                            </div>
                         </li>
                     </div>
                 </ul>
@@ -78,10 +74,13 @@
                 <ul class="collection with-header" id="Assignments">
                     <li class="collection-header"><h5>Assignments list</h5></li>
                     <div>
-                        <li class="collection-item avatar">
-                            <i class="material-icons circle">assignment</i>
-                            <span class="title">Finish this task</span>
-                            <p>This is your first task nd finish it as soon as possible</p>
+                        <li class="collection-item">
+                            <div>
+                                <label id="assignments0">
+                                    <input type="checkbox" class="filled-in" onchange="complete_task('assignments0')" value="Task1">
+                                    <span>Task1</span>
+                                </label>
+                            </div>
                         </li>
                     </div>
                 </ul>
@@ -90,20 +89,25 @@
                 <ul class="collection with-header" id="Goals">
                     <li class="collection-header"><h5>Goals list</h5></li>
                     <div>
-                        <li class="collection-item avatar">
-                            <i class="material-icons circle">assignment</i>
-                            <span class="title">Finish this task</span>
-                            <p>This is your first task nd finish it as soon as possible</p>
+                        <li class="collection-item">
+                            <div>
+                                <label id="goals0">
+                                    <input type="checkbox" class="filled-in" onchange="complete_task('goals0')" value="Task1">
+                                    <span>Task1</span>
+                                </label>
+                            </div>
                         </li>
                     </div>
                 </ul>
             </div>
         </div>
         <div class="footer container quick-task">
-            <label for="quick-task-title">Enter a new task title</label>
-            <input type="text" id="quick-task-title" placeholder="">
-            <!-- <input type="text" id="quick-task-description" placeholder="Enter task description"> -->
-            <!-- <button class="btn-floating z-depth-0" style="position:absolute; right:0; top:0; background: white; " onclick="addNewQuickTask()"><i class="material-icons" style="color:#212121">send</i></button> -->
+            <div class="input-field">
+                <label for="quick-task-title">Enter a new task title</label>
+                <input type="text" id="quick-task-title" placeholder="">
+                <!-- <input type="text" id="quick-task-description" placeholder="Enter task description"> -->
+                <button class="btn-floating z-depth-0" style="position:absolute; right:0; top:0; " onclick="addNewQuickTask()"><i class="material-icons">send</i></button>
+            </div>
         </div>
         <ul id="slide-out" class="sidenav" id="sidenav">
             <li class="btn-floating right circle grey darken-3 z-depth-0" onclick="closeSideNav()" style="postion:relative; top:10px; right:10px;">
@@ -134,12 +138,61 @@
                 </div>
             </div>
         </div>
+        <div class="container" id="add_task_form" style="display: none;">
+        <div class="background grey darken-3">
+          <div style="height: 70px; margin-top: 40px;"></div>
+          <div class="row">
+            <div class="input-field col s12" style="margin-bottom:30px">
+              <i class="material-icons prefix" style="color: white">title</i>
+              <label for="task_name">Task Name</label>
+              <input type="text" name="task_name" id="task_name" class="validate" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12"  style="margin-bottom: 0px">
+            <i class="material-icons prefix">notes</i>
+            <label for="task_description">Notes</label>
+            <input type="text" name="task_description" id="task_description" placeholder="Tap to add notes...">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12" style="margin: 0px">
+            <i class="material-icons prefix">list</i>
+            <label for="task_list">List</label>
+            <input type="text" name="task_list" id="task_list">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12" style="margin: 0px">
+            <i class="material-icons prefix">today</i>
+            <label for="task_due_date">Due Date</label>
+            <input type="text" name="task_due_date" id="task_due_date" class="datepicker">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12" style="margin: 0px">
+            <i class="material-icons prefix">timer</i>
+            <label for="task_due_time">Due Time</label>
+            <input type="text" name="task_due_time" id="task_due_time" class="timepicker">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12" style="margin: 0px">
+            <i class="material-icons prefix">add_alert</i>
+            <label for="task_reminder">Reminder (Coming soon...)</label>
+            <input type="text" name="task_reminder" id="task_reminder" disabled>
+          </div>
+        </div>
+      </div>
         <!-- Compiled and minified JavaScript -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>    
         <script>
             $(document).ready(function(){
                 $('.sidenav').sidenav();
+                $('.datepicker').datepicker();
+                $('.timepicker').timepicker();                
             });
         </script>
     </body>
@@ -163,6 +216,8 @@
             quick_task_title.focus();
             activeListId=s;
             document.getElementById("form-container").style="display:none";
+            document.getElementById("add_task_form").style="display:none";
+            document.getElementById("body").style="display:block";
             document.getElementById(s).style="display:block";
             for(i=0;i<divs.length;i++){
                 if(divs[i].id!=s){
@@ -200,18 +255,13 @@
                     <ul class="collection with-header">
                         <li class="collection-header"><h5>${task.value}</h5></li>
                         <div>
-                            <li class="collection-item avatar">
-                                <i class="material-icons circle">assignment</i>
-                                <span class="title">Finish this task</span>
-                                <p>This is your first task nd finish it as soon as possible</p>
-                            </li>
                         </div>
                     </ul>
                 </div>
             `;
             body.innerHTML+=new_div;
+            handleTasksList(task.value);
             task.value="";
-
         }
         quick_task_title.addEventListener("keyup",function(event){
             if(event.keyCode === 13){
@@ -222,19 +272,42 @@
             if(!quick_task_title.value)
                 return;
             let tlist = document.getElementById(activeListId).children[0];
-            console.log("add new quick task to list",tlist.id);
+            tlc= tlist.children[1];
+            console.log("add new quick task to list",tlc);
+            console.log("new task id is",tlist.id+tlc.children.length);
             let new_task=`
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">assignment</i>
-                    <span class="title">${quick_task_title.value}</span>
+                <li class="collection-item">
+                    <div>
+                        <label id="${tlist.id}${tlc.children.length}">
+                            <input type="checkbox" class="filled-in" onchange="complete_task('${tlist.id}${tlc.children.length}')" value="${quick_task_title.value}">
+                            <span>${quick_task_title.value}</span>
+                        </label>
+                    </div>
                 </li>
             `;
-            //tlist.innerHTML+=new_task;
-            tlc= tlist.children[1];
             tlc.innerHTML = new_task + tlc.innerHTML;
             quick_task_title.value="";
             quick_task_title.focus();
             quick_task_title.select();
+        }
+        function complete_task(task_id){
+            console.log("strike",task_id);
+            label = document.getElementById(task_id);
+            input = label.children[0];
+            span = label.children[1];
+            if(input.checked)
+                span.innerHTML = "<strike>" + input.value + "</strike>";
+            else
+                span.innerHTML = input.value;
+        }
+        function add_task(){
+            document.getElementsByClassName("footer")[0].style="display:none";
+            document.getElementById("body").style="display:none;";
+            document.getElementById("add_task_button").style="display:none;";
+            console.log("add a detailed task");
+            for(i=0;i<divs.length;i++)
+                divs[i].style="display:none";
+            document.getElementById("add_task_form").style="display:block";
         }
     </script>
 </html>

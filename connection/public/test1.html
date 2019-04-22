@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>checkboxes</title>
+</head>
+<body>
+		<input type="checkbox" name="vehicle" value="car">Car<br>
+		<input type="checkbox" name="vehicle" value="bike">Bike<br>
+		<input type="radio" name="gender" value="male">Male<br>
+		<input type="radio" name="gender" value="female">Female<br>
+		<input type="radio" name="type" value="student">student<br>
+		<input type="radio" name="type" value="staff">staff<br>
+		<button onclick="f()">Submit</button>
+	<script type="text/javascript">
+		function f(){
+			vehicle = document.getElementsByName("vehicle");
+			gender = document.getElementsByName("gender");
+			for(i=0;i<vehicle.length;i++){
+				if(vehicle[i].checked){
+					console.log(vehicle[i].value);
+				}
+			}
+			console.log(gender.value);
+			for(i=0;i<gender.length;i++){
+				if(gender[i].checked){
+					console.log(gender[i].value);
+				}
+			}
+		}
+	</script>
+</body>
+</html>

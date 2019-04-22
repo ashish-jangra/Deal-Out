@@ -1,125 +1,68 @@
 <html lang="en">
 <head>
-    <title>Document</title>
+    <title>Add Task</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
 </head>
 <body>
-    <style>
-        
-body,
-html {
-  background: #121212;
-  background-color: #121212;
-  color: rgba(255, 255, 255, 0.87);
-}
-.darktheme .picker__box {
-  background-color: #212121 !important;
-}
-.darktheme .picker__date-display {
-  background-color: transparent !important;
-}
-.darktheme .clockpicker-display {
-  color: white !important;
-}
-.darktheme .clockpicker-span-am-pm {
-  color: white !important;
-}
-.darktheme .clockpicker-span-hours.text-primary,
-.darktheme .clockpicker-span-minutes.text-primary,
-.darktheme #click-am.text-primary,
-.darktheme #click-pm.text-primary {
-  color: #2196f3 !important;
-}
-.darktheme .clockpicker-plate {
-  background-color: transparent !important;
-}
-.darktheme .clockpicker-tick {
-  color: white !important;
-  background-color: rgba(255, 64, 129, 0) !important;
-}
-.darktheme .clockpicker-tick.active,
-.darktheme .clockpicker-tick:hover {
-  background-color: rgba(3, 169, 244, 0.25) !important;
-}
-.darktheme .clockpicker-canvas-bearing {
-  fill: white !important;
-}
-.darktheme .clockpicker-canvas-fg {
-  fill: rgba(255, 64, 129, 0) !important;
-}
-.darktheme .clockpicker-canvas-fg.active {
-  fill: rgba(33, 150, 243, 0.5) !important;
-}
-.darktheme .clockpicker-canvas-bg {
-  fill: rgba(3, 169, 244, 0.25) !important;
-}
-.darktheme .clockpicker-canvas-bg-trans {
-  fill: rgba(33, 150, 243, 0.25) !important;
-}
-.darktheme .clockpicker-canvas line {
-  stroke: rgba(3, 169, 244, 0.23) !important;
-}
-.darktheme button {
-  color: white !important;
-}
-.darktheme .btn-floating.btn-flat.active {
-  background-color: rgba(33, 150, 243, 0.31) !important;
-}
-.darktheme .btn-floating.btn-flat:active {
-  background-color: rgba(33, 150, 243, 0.22) !important;
-}
-.darktheme .picker__footer {
-  border-top: 1px solid rgba(255,255,255,0.13);
-  line-height:54px;
-  height:54px;
-  margin-top:3px;
-}
-.darktheme .picker__footer .clockpicker-button{
-   vertical-align:middle;
-  margin-bottom:1rem;
-}
-.darktheme .picker__footer .clockpicker-button:active {
-  background-color: rgba(33, 150, 243, 0.22) !important;
- 
-}
-@media (min-height: 28.875em) {
-  .picker__box {
-    display: block;
-    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14),
-      0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
-    border-width: 1px 1px 0px;
-    border-style: solid;
-    border-color: rgb(0, 0, 0) rgb(0, 0, 0) rgb(0, 0, 0);
-    border-image: initial;
-    border-radius: 2px;
-  }
-}
-
-/*# sourceMappingURL=picker.css.map */
-
-    </style>
-    <h5 id="h5">Hello</h5>
-    <center>
-        <button class="btn-floating z-depth-0" style="border: 0px" onclick="f()">
-            <i class="material-icons">add</i>
-        </button>
-    </center>
-    <div class="input-field">
-        <input type="time" class="timepicker" id="time">
+  <button class="btn-floating btn-large" style="position: fixed; bottom: 40px;right: 40px;">
+    <i class="material-icons">add</i>
+  </button>
+  <div class="container">
+    <div class="background grey darken-3" style="margin-top:20px">
+      <div style="height: 70px"></div>
+      <div class="row">
+        <div class="input-field col s12" style="margin-bottom:30px">
+          <i class="material-icons prefix" style="color: white">title</i>
+          <label for="task_name">Task Name</label>
+          <input type="text" name="task_name" id="task_name" class="validate" required>
+        </div>
+      </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('.timepicker').timepicker();
-        });
-    </script>
+    <div class="row">
+      <div class="input-field col s12"  style="margin-bottom: 0px">
+        <i class="material-icons prefix">notes</i>
+        <label for="task_description">Notes</label>
+        <input type="text" name="task_description" id="task_description" placeholder="Tap to add notes...">
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12" style="margin: 0px">
+        <i class="material-icons prefix">list</i>
+        <label for="task_list">List</label>
+        <input type="text" name="task_list" id="task_list">
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12" style="margin: 0px">
+        <i class="material-icons prefix">today</i>
+        <label for="task_due_date">Due Date</label>
+        <input type="text" name="task_due_date" id="task_due_date" class="datepicker">
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12" style="margin: 0px">
+        <i class="material-icons prefix">timer</i>
+        <label for="task_due_time">Due Time</label>
+        <input type="text" name="task_due_time" id="task_due_time" class="timepicker">
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12" style="margin: 0px">
+        <i class="material-icons prefix">add_alert</i>
+        <label for="task_reminder">Reminder (Coming soon...)</label>
+        <input type="text" name="task_reminder" id="task_reminder">
+      </div>
+    </div>
+  </div>  
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  <script>
+      $(document).ready(function(){
+          $('.datepicker').datepicker();
+          $('.timepicker').timepicker();
+      });
+  </script>
 </body>
-<script>
-    function f(){
-        document.getElementById("h5").innerHTML+=" world";
-    }
-</script>
 </html>

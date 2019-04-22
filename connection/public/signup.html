@@ -11,13 +11,13 @@
     <style>
     </style>
     <div class="container">
-        <h3 style="margin-bottom: 40px; text-align: center">Enter the form below</h3>
+        <h4 style="margin-bottom: 40px; text-align: center">Enter the form below</h4>
         <div class="row">
-            <form class="col s12">
+            <form class="col s12" action="/student/signup" method="POST">
                 <div class="row">
                     <div class="input-field col l6">
                         <i class="material-icons prefix">account_circle</i>
-                        <input id="first_name" type="text" class="validate" name="first_name">
+                        <input id="first_name" type="text" class="validate" name="first_name" required>
                         <label for="first_name">First Name</label>
                     </div>                
                     <div class="input-field col l6">
@@ -28,14 +28,14 @@
                 <div class="row">
                     <div class="input-field col l12">
                         <i class="material-icons prefix">email</i>
-                        <input id="icon_telephone" type="email" class="validate" name="email">
+                        <input id="icon_telephone" type="email" class="validate" name="email" required>
                         <label for="icon_telephone">Email</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col l6">
                         <i class="material-icons prefix">assignment</i>
-                        <input id="roll_no" type="text" class="validate" name="roll_no">
+                        <input id="roll_no" type="text" class="validate" name="roll_no" required>
                         <label for="roll_no">Roll No</label>
                     </div>
                     <div class="input-field col l6 center">
@@ -43,9 +43,22 @@
                         <label for="section">Section</label>
                     </div>
                 </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="input-field col s6">
+                        <button class="btn large grey" style="width:100%; height:8%;" onclick="handleCancel()">Cancel</button>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="submit" value="SignUp" class="btn large green" style="width:100%; height:8%">
+                    </div>
+                </div>
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        function handleCancel(){
+            window.location="/";
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 </body>
