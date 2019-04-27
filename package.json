@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/ashish-jangra/TODO-APP/issues"
   },
-  "homepage": "https://github.com/ashish-jangra/TODO-APP#readme"
+  "homepage": "https://github.com/ashish-jangra/TODO-APP#readme",
+  "dependencies":""
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<h4 class="center" style="margin:50px;">Login Form</h4>
+		<form action="student/login" method="POST">
+			<div class="row">
+				<div class="input-field col s12">
+					<i class="material-icons prefix">person</i>
+					<input type="email" name="username" id="username" placeholder="Username/Email ...">
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<i class="material-icons prefix">visibility_off</i>
+					<input type="password" name="password" id="password" placeholder="Password...">
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input type="submit" name="submit" value="Login" class="btn">
+				</div>
+				<div class="input-field col s12">
+					<button class="btn" onclick="window.location='/signup'">Signup</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
