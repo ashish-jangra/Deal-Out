@@ -36,10 +36,10 @@ const server = app.listen(4000,function(err) {
 const sessAuthChecker = function(req,res,next){
 	console.log('inside sessAuthChecker',req.session.user);
 	if(req.session.user){
-		res.redirect('/');
+		next();
 	}
 	else{
-		next();
+		res.redirect('/');
 	}
 }
 
@@ -91,6 +91,82 @@ app.get('/logout',function(req,res){
 
 app.get('/img_avatar.png',function(req,res){
 	res.sendFile(__dirname+'/public/img_avatar.png');
+});
+
+app.get("/add_task_list",function(req,res){
+	if(req.session.user){
+		Student.findById(req.session.user.id).then(function(result){
+			if(result){
+				result.tasks_lists.push({list_name: req.query.list_name, tasks: []});
+				result.save(function(){
+					console.log("added tasks list for ",result.username);
+				});	
+				res.send("added new task list");
+			}
+			res.send(null);
+		});
+	}
+	else
+		res.send(null);
+});
+
+app.get('/add_quick_task',function(req,res){
+	if(!req.session.user)
+		res.send(null);
+	else{
+		Student.findById(req.session.user.id).then(function(result){
+			if(!result)
+				res.send(null);
+			else{
+				for(i=0;i<result.tasks_lists.length;i++){
+					if(result.tasks_lists[i].list_name == req.query.list_name){
+						result.tasks_lists[i].tasks = [{task_name: req.query.task_name}, ...result.tasks_lists[i].tasks]
+						result.save(function(){
+							console.log("added a quick-task");
+						});
+						res.send(String(result.tasks_lists[i].tasks[0]._id));
+						break;
+					}
+				}
+				if(i == result.tasks_lists.length)
+					res.send("can't add task");
+			}
+		});
+	}
+});
+
+app.get('/change_task_status',function(req,res){
+	console.log(req.query);
+	if(req.session.user){
+		Student.findById(req.session.user.id).then(function(result){
+			if(result){
+				console.log("valid user");
+				for(i=0;i<result.tasks_lists.length;i++){
+					if(result.tasks_lists[i].list_name == req.query.list_name){
+						console.log("found correct tasks-list");
+						for(j=0;j<result.tasks_lists[i].tasks.length;j++){
+							if(result.tasks_lists[i].tasks[j]._id == req.query.task_name){
+								console.log("found exact match");
+								result.tasks_lists[i].tasks[j].task_status = req.query.new_status;
+								result.save(function(){
+									console.log("changed status of task");
+									res.send("changed status of task");
+								});
+							}
+							break;
+						}
+						break;
+					}
+				}
+				if(i == result.tasks_lists.length)
+					res.send(null);
+			}
+			else
+				res.send(null);
+		});
+	}
+	else
+		res.send(null);
 });
 
 const server_socket = socket(server);

@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const Tasks = new Schema({
 	task_name: String,
 	task_description: String,
-	task_due_date: Date
+	task_due_date: Date,
+	task_status: {type: String, default: "incomplete"}
 	//createdAt,updatedAt available bcoz of timestamps: true
 },{timestamps: true});
 

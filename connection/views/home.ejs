@@ -51,13 +51,14 @@
                         <% for(i=0;i<tasks_lists.length;i++){%>
                             <li onclick="handleTasksList('<%= tasks_lists[i].list_name %>')"><a href="#"><%= tasks_lists[i].list_name %></a></li>
                         <% } %>
+                        <li onclick="addList()" style="float:right"><a href="#" class="circle"><i class="material-icons circle">add</i></a></li>
                     </ul>
                 </div>
             </nav>
         </div>
         <div id="body" style="padding:30px; max-height:500px; overflow-y: scroll; overflow-x:hidden;">
             <% for(i=0; i < tasks_lists.length; i++) { %>
-                <div class="container taskslist" id="<%= tasks_lists[i].list_name %>">
+                <div class="container taskslist" id="<%= tasks_lists[i].list_name %>" <% if(i>0) { %>style="display:none"<% } %>>
                     <ul class="collection with-header" id="Tasks">
                         <li class="collection-header"><h5><%= tasks_lists[i].list_name%></h5></li>
                         <div>
@@ -65,8 +66,16 @@
                             <li class="collection-item">
                                 <div>
                                     <label id="<%= tasks_lists[i].tasks[j]._id %>">
-                                        <input type="checkbox" class="filled-in" onchange="complete_task('<%= tasks_lists[i].tasks[j]._id %>')" value="<%= tasks_lists[i].tasks[j].task_name%>">
-                                        <span><%= tasks_lists[i].tasks[j].task_name%></span>
+                                        <input type="checkbox" class="filled-in" onchange="complete_task('<%= tasks_lists[i].tasks[j]._id %>')" value="<%= tasks_lists[i].tasks[j].task_name%>" <% if(tasks_lists[i].tasks[j].task_status == "complete") {%> checked <% }%>>
+                                        <span>
+                                            <% if(tasks_lists[i].tasks[j].task_status == "complete") { %>
+                                                <strike>
+                                            <% }%>
+                                            <%= tasks_lists[i].tasks[j].task_name%> 
+                                            <% if(tasks_lists[i].tasks[j].task_status == "complete") { %>
+                                                </strike>
+                                            <% }%>       
+                                        </span>
                                         <p>Created at: <%= tasks_lists[i].tasks[j].createdAt%></p>
                                     </label>
                                 </div>
@@ -92,7 +101,7 @@
             <li><div class="user-view">
             <div class="background" style="background:#424242">
             </div>
-            <a href="#user"><img class="circle" src="img_avatar.png"></a>
+            <a href="#user"><img class="circle" src="img_avatar.png" /></a>
             <a href="#name"><span class="white-text name">John Doe</span></a>
             <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
             </div></li>
@@ -183,12 +192,12 @@
         var count = 3;
         const task = document.getElementById("task");
         const form = document.getElementById("list-form");
-        const tasks = document.getElementById("task-list");
+        const tasks = document.getElementById("<%= tasks_lists[0].list_name %>");
         const body = document.getElementById("body");
         const divs=document.getElementsByClassName("container taskslist");
         const quick_task_title=document.getElementById("quick-task-title");
         const quick_task_description=document.getElementById("quick-task-description");
-        var activeListId = "task-list";
+        var activeListId = "<%= tasks_lists[0].list_name %>";
         quick_task_title.focus();
         function closeSideNav(){
             console.log("Close sidenav");
@@ -263,32 +272,55 @@
                 return;
             let tlist = document.getElementById(activeListId).children[0];
             tlc= tlist.children[1];
-            console.log("add new quick task to list",tlc);
-            console.log("new task id is",tlist.id+tlc.children.length);
-            let new_task=`
-                <li class="collection-item">
-                    <div>
-                        <label id="${tlist.id}${tlc.children.length}">
-                            <input type="checkbox" class="filled-in" onchange="complete_task('${tlist.id}${tlc.children.length}')" value="${quick_task_title.value}">
-                            <span>${quick_task_title.value}</span>
-                        </label>
-                    </div>
-                </li>
-            `;
-            tlc.innerHTML = new_task + tlc.innerHTML;
-            quick_task_title.value="";
-            quick_task_title.focus();
-            quick_task_title.select();
+            let ajaxRequest = new XMLHttpRequest();
+            let url = "/add_quick_task?list_name="+activeListId+"&task_name="+quick_task_title.value;
+            ajaxRequest.open("GET",url);
+            ajaxRequest.send();
+            ajaxRequest.onreadystatechange = function(){
+                console.log("ajaxRequest status changed");
+                if(ajaxRequest.readyState == 4){
+                    console.log("got response",ajaxRequest.responseText);
+                    let new_task=`
+                        <li class="collection-item">
+                            <div>
+                                <label id=${ajaxRequest.responseText}>
+                                    <input type="checkbox" class="filled-in" onchange="complete_task('${ajaxRequest.responseText}')" value="${quick_task_title.value}">
+                                    <span>${quick_task_title.value}</span>
+                                    <p>Created at ${new Date()}</p>
+                                </label>
+                            </div>
+                        </li>
+                    `;
+                    tlc.innerHTML = new_task + tlc.innerHTML;
+                    quick_task_title.value="";
+                    quick_task_title.focus();
+                    quick_task_title.select();
+                }
+            }
         }
         function complete_task(task_id){
             console.log("strike",task_id);
             label = document.getElementById(task_id);
+            let att = document.createAttribute("checked");
             input = label.children[0];
             span = label.children[1];
-            if(input.checked)
+            let ajaxRequest = new XMLHttpRequest();
+            let url = "/change_task_status?list_name="+ activeListId + "&task_name=" + task_id +"&new_status=";
+            console.log("checked: ",input.checked);
+            if(input.checked){
+                att.value = true;
+                input.setAttributeNode(att);
                 span.innerHTML = "<strike>" + input.value + "</strike>";
-            else
+                url += "complete";
+            }
+            else{
+                att.value = false;
+                input.setAttributeNode(att);
                 span.innerHTML = input.value;
+                url += "incomplete";
+            }
+            ajaxRequest.open("GET",url);
+            ajaxRequest.send();
         }
         function add_task(){
             document.getElementsByClassName("footer")[0].style="display:none";
