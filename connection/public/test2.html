@@ -1,14 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
 
+<h1>The XMLHttpRequest Object</h1>
 
+<button type="button" onclick="loadDoc()">Request data</button>
 
-<script type="text/javascript">
-	function handleDrop(e) {
-  e.stopPropagation(); // Stops some browsers from redirecting.
-  e.preventDefault();
-
-  var files = e.dataTransfer.files;
-  for (var i = 0, f; f = files[i]; i++) {
-    // Read the File objects in this FileList.
-  }
+<p id="demo"></p>
+ 
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("POST", "/test", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("fname=Ashish&lname=jangra");
 }
 </script>
+
+</body>
+</html>

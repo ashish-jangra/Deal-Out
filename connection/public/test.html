@@ -1,68 +1,48 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <title>Add Task</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<title>Home</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+    <style type="text/css">
+    	option{
+    		color: black;
+    	}
+    </style>
 </head>
 <body>
-  <button class="btn-floating btn-large" style="position: fixed; bottom: 40px;right: 40px;">
-    <i class="material-icons">add</i>
-  </button>
-  <div class="container">
-    <div class="background grey darken-3" style="margin-top:20px">
-      <div style="height: 70px"></div>
-      <div class="row">
-        <div class="input-field col s12" style="margin-bottom:30px">
-          <i class="material-icons prefix" style="color: white">title</i>
-          <label for="task_name">Task Name</label>
-          <input type="text" name="task_name" id="task_name" class="validate" required>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12"  style="margin-bottom: 0px">
-        <i class="material-icons prefix">notes</i>
-        <label for="task_description">Notes</label>
-        <input type="text" name="task_description" id="task_description" placeholder="Tap to add notes...">
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12" style="margin: 0px">
-        <i class="material-icons prefix">list</i>
-        <label for="task_list">List</label>
-        <input type="text" name="task_list" id="task_list">
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12" style="margin: 0px">
-        <i class="material-icons prefix">today</i>
-        <label for="task_due_date">Due Date</label>
-        <input type="text" name="task_due_date" id="task_due_date" class="datepicker">
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12" style="margin: 0px">
-        <i class="material-icons prefix">timer</i>
-        <label for="task_due_time">Due Time</label>
-        <input type="text" name="task_due_time" id="task_due_time" class="timepicker">
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12" style="margin: 0px">
-        <i class="material-icons prefix">add_alert</i>
-        <label for="task_reminder">Reminder (Coming soon...)</label>
-        <input type="text" name="task_reminder" id="task_reminder">
-      </div>
-    </div>
-  </div>  
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-  <script>
-      $(document).ready(function(){
-          $('.datepicker').datepicker();
-          $('.timepicker').timepicker();
-      });
-  </script>
+	<div class="container">
+		<center><h5>Add your section</h5></center>
+    	<div class="row">
+    		<div class="input-field col l4">
+    			<select name="">
+    				<option value="B.Tech">B.Tech</option>
+    			</select>
+    		</div>
+    		<div class="input-field col l4">
+    			<select name="year" class="dropdown-trigger">
+    				<option value="1">1st year</option>
+    				<option value="2">2nd year</option>
+    				<option value="3">3rd year</option>
+    				<option value="4">4th year</option>
+    			</select>
+    		</div>
+    		<div class="input-field col l4">
+    			<select name="section" multiple class="dropdown-trigger">
+    				<option value="" disabled selected>Choose section</option>
+    				<option value="IT-4">IT-4</option>
+    				<option value="IT-5">IT-5</option>
+    				<option value="IT-6">IT-6</option>
+    			</select>
+    		</div>
+    	</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+    	$(document).ready(function(){
+		    $('select').formSelect();
+		});
+    </script>
 </body>
 </html>

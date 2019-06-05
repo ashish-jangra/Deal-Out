@@ -1,32 +1,170 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>checkboxes</title>
-</head>
-<body>
-		<input type="checkbox" name="vehicle" value="car">Car<br>
-		<input type="checkbox" name="vehicle" value="bike">Bike<br>
-		<input type="radio" name="gender" value="male">Male<br>
-		<input type="radio" name="gender" value="female">Female<br>
-		<input type="radio" name="type" value="student">student<br>
-		<input type="radio" name="type" value="staff">staff<br>
-		<button onclick="f()">Submit</button>
+	<head>
+		<title>Teacher home page test</title>
+		<link rel="stylesheet" href="materialize.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+	<body>
+		<div class="navbar-fixed">
+            <nav class="nav-wraper grey darken-3">
+                <a href="#" data-target="slide-out" class="left sidenav-trigger" style="display:block">
+                    <i class="material-icons">menu</i>
+                </a>
+                <div class="container">
+                    <!-- <a href="#" class="brand-logo">JARVIS</a> -->
+                    <a href="#" class="sidenav">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="right hide-on-small-only" id="sectionsNav">
+                        <li onclick="handleSection('IT-4')"><a href="#" class="tooltipped" data-position="bottom" data-tooltip="B.Tech 2nd Year">IT-4</a></li>
+                        <li onclick="addSection()" style="float:right"><a href="#" class="circle"><i class="material-icons circle">add</i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <ul id="slide-out" class="sidenav" id="sidenav">
+            <li class="btn-floating right circle grey darken-3 z-depth-0" onclick="closeSideNav()" style="postion:relative; top:10px; right:10px;">
+                <i class="material-icons">close</i>
+            </li>
+            <li><div class="user-view">
+            <div class="background" style="background:#424242">
+            </div>
+            <a href="#user"><img class="circle" src="img_avatar.png" /></a>
+            <a href="#name"><span class="white-text name">John Doe</span></a>
+            <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div></li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="/logout">Logout</a></li>
+        </ul>
+        <button class="btn-floating btn-large" style="position: fixed; bottom: 40px;right: 40px;" onclick="add_task()">
+            <i class="material-icons">add</i>
+        </button>
+        <div class="container" id="section_container">
+            <ul class="collection with-header" id="IT-4" style="display: none;">
+                <li class="collection-header">
+                    <h5>
+                        IT-4
+                        <span class="right">
+                            <label>
+                                <input type="checkbox" class="filled-in" onchange="selectAll()">
+                                <span>All</span>
+                            </label>
+                        </span>
+                        
+                    </h5>
+                </li>
+                <li class="collection-item">
+                    <label>
+                        <input type="checkbox" class="filled-in">
+                        <span>11710558</span>
+                    </label>
+                    <span class="right">
+                        Ravinder
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <input type="text" name="" class="container timepicker">
+        <div id="add-section-form" class="container" style="display: none;">
+        	<center><h5>Add your section</h5></center>
+        	<div class="row">
+        		<div class="input-field col l4">
+        			<select id="programme">
+        				<option value="" disabled selected>Select Programme</option>
+        				<option value="B.Tech">B.Tech</option>
+        				<option value="M.Tech">M.Tech</option>
+        			</select>
+        		</div>
+        		<div class="input-field col l4">
+        			<select id="year">
+        				<option value="" disabled selected>Select Year</option>
+        				<option value="1st year">1st year</option>
+        				<option value="2nd year">2nd year</option>
+        				<option value="3rd year">3rd year</option>
+        				<option value="4th year">4th year</option>
+        			</select>
+        		</div>
+        		<div class="input-field col l4">
+        			<select id="section">
+        				<option value="" disabled selected>Select section</option>
+        				<option value="IT-4">IT-4</option>
+        				<option value="IT-5">IT-5</option>
+        				<option value="IT-6">IT-6</option>
+        			</select>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="input-field col l4">
+        			<button class="btn" onclick="handleNewSection()">Add Section To Your List</button>
+        		</div>
+        	</div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>    	
+		<script>
+            $(document).ready(function(){
+                $('.sidenav').sidenav();
+                $('select').formSelect();
+                $('.tooltipped').tooltip();
+                $('.timepicker').timepicker();
+            });
+            function closeSideNav(){
+	            console.log("Close sidenav");
+	            $('.sidenav').sidenav('close');
+	        }
+        </script>
+	</body>
 	<script type="text/javascript">
-		function f(){
-			vehicle = document.getElementsByName("vehicle");
-			gender = document.getElementsByName("gender");
-			for(i=0;i<vehicle.length;i++){
-				if(vehicle[i].checked){
-					console.log(vehicle[i].value);
-				}
-			}
-			console.log(gender.value);
-			for(i=0;i<gender.length;i++){
-				if(gender[i].checked){
-					console.log(gender[i].value);
-				}
-			}
+		add_section_form = document.getElementById("add-section-form");
+        sectionsNav = document.getElementById("sectionsNav");
+        section_container = document.getElementById("section_container");
+        //console.log(add_section_form);
+        handleSection("IT-4");
+		function handleSection(activeSection){
+			console.log("handlesection",activeSection);
+			add_section_form.style.display="none";
+            section_container.style.display="block";
+            for(i=0;i<section_container.children.length;i++){
+                if(section_container.children[i].id != activeSection){
+                    section_container.children[i].style.display="none";
+                }
+                else{
+                    section_container.children[i].style.display="block";
+                    //console.log(section_container.children[i]);
+                }
+            }
 		}
+		function addSection(){
+			console.log("addsection");
+            section_container.style.display="none";
+			add_section_form.style.display="block";
+		}
+		function handleNewSection(){
+            new_section_name = document.getElementById("section");
+            programme = document.getElementById("programme");
+            year = document.getElementById("year");
+            sectionsNav.innerHTML+=`<li onclick="handleSection('${new_section_name.value}')"><a href="#" class="tooltipped" data-position="bottom" data-tooltip="${programme.value} ${year.value}">${new_section_name.value}</a></li>`;
+            new_section=`
+                <ul class="collection with-header" id="${new_section_name.value}" style="display: none">
+                    <li class="collection-header"><h5>${new_section_name.value}</h5></li>
+                </ul>
+            `;
+            section_container.innerHTML+=new_section;
+            handleSection(`${new_section_name.value}`);
+            $('.tooltipped').tooltip();
+		}
+        function selectAll(){
+            if(checked){
+
+            }
+            else{
+                
+            }
+        }
 	</script>
-</body>
 </html>

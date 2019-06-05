@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Teacher home page</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	    <style type="text/css">
+            
+        </style>
+    </head>
+	<body>
+		<div class="navbar-fixed">
+            <nav class="nav-wraper grey darken-3">
+                <a href="#" data-target="slide-out" class="left sidenav-trigger" style="display:block">
+                    <i class="material-icons">menu</i>
+                </a>
+                <div class="container">
+                    <!-- <a href="#" class="brand-logo">JARVIS</a> -->
+                    <a href="#" class="sidenav">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="right hide-on-small-only" id="sectionsNav">
+                    	<%for(i=0;i<sections.length;i++){%>
+                        	<li onclick="handleSection('<%= sections[i].programme %>/<%= sections[i].year %>/<%= sections[i].name %>')"><a href="#" class="tooltipped" data-position="bottom" data-tooltip="<%= sections[i].programme %> <%= sections[i].year %>"><%= sections[i].name%></a></li>
+                        <%}%>
+                        <li onclick="addSection()" style="float:right"><a href="#" class="circle"><i class="material-icons circle">add</i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <ul id="slide-out" class="sidenav" id="sidenav">
+            <li class="btn-floating right circle grey darken-3 z-depth-0" onclick="closeSideNav()" style="postion:relative; top:10px; right:10px;">
+                <i class="material-icons">close</i>
+            </li>
+            <li><div class="user-view">
+            <div class="background" style="background:#424242">
+            </div>
+            <a href="#user"><img class="circle" src="img_avatar.png" /></a>
+            <a href="#name"><span class="white-text name">John Doe</span></a>
+            <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            </div></li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="/logout">Logout</a></li>
+        </ul>
+        <button id="add_task_button" class="btn-floating btn-large" style="position: fixed; bottom: 40px;right: 40px;" onclick="add_task()">
+            <i class="material-icons">add</i>
+        </button>
+        <button id="assign_task_button" class="btn-floating btn-large" style="position: fixed; bottom: 40px;right: 40px; display: none;" onclick="assign_task()">
+            <i class="material-icons">check</i>
+        </button>
+        <div class="container" id="section_container">
+            
+        </div>
+        <div id="add-section-form" class="container" style="display: none;">
+        	<center><h5>Add your section</h5></center>
+        	<div class="row">
+        		<div class="input-field col l4">
+        			<select id="programme">
+        				<option value="" disabled selected>Select Programme</option>
+        				<option value="B.Tech">B.Tech</option>
+        				<option value="M.Tech">M.Tech</option>
+        			</select>
+        		</div>
+        		<div class="input-field col l4">
+        			<select id="year">
+        				<option value="" disabled selected>Select Year</option>
+        				<option value="1st year">1st year</option>
+        				<option value="2nd year">2nd year</option>
+        				<option value="3rd year">3rd year</option>
+        				<option value="4th year">4th year</option>
+        			</select>
+        		</div>
+        		<div class="input-field col l4">
+        			<select id="section">
+        				<option value="" disabled selected>Select section</option>
+        				<option value="IT-4">IT-4</option>
+        				<option value="IT-5">IT-5</option>
+        				<option value="IT-6">IT-6</option>
+        			</select>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="input-field col l4">
+        			<button class="btn" onclick="handleNewSection()">Add Section To Your List</button>
+        		</div>
+        	</div>
+        </div>
+        <div class="container" id="add_task_form" style="display: none;">
+            <div class="background grey darken-3">
+              <div style="height: 70px; margin-top: 40px;"></div>
+              <div class="row">
+                <div class="input-field col s12" style="margin-bottom:30px">
+                  <i class="material-icons prefix" style="color: white">title</i>
+                  <label for="task_name">Task Name</label>
+                  <input type="text" name="task_name" id="task_name" class="validate" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12"  style="margin-bottom: 0px">
+                <i class="material-icons prefix">notes</i>
+                <label for="task_description">Notes</label>
+                <input type="text" name="task_description" id="task_description" placeholder="Tap to add notes...">
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12" style="margin: 0px">
+                <i class="material-icons prefix">list</i>
+                <input type="text" name="task_list" id="task_list" value="Assignments" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12" style="margin: 0px">
+                <i class="material-icons prefix">today</i>
+                <label for="task_due_date">Due Date</label>
+                <input type="text" name="task_due_date" id="task_due_date" class="datepicker">
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12" style="margin: 0px">
+                <i class="material-icons prefix">timer</i>
+                <label for="task_due_time">Due Time</label>
+                <input type="text" name="task_due_time" id="task_due_time" class="timepicker">
+              </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>    	
+		<script>
+            $(document).ready(function(){
+                $('.sidenav').sidenav();
+                $('select').formSelect();
+                $('.tooltipped').tooltip();
+                $('.datepicker').datepicker();
+                $('.timepicker').timepicker();
+            });
+            function closeSideNav(){
+	            console.log("Close sidenav");
+	            $('.sidenav').sidenav('close');
+	        }
+        </script>
+	</body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+	<script type="text/javascript">
+		var teacher_socket=io.connect('http://localhost:4000');
+		teacher_socket.id="<%= email%>";
+	</script>
+	<script type="text/javascript">
+		var activeSection = "";
+		add_section_form = document.getElementById("add-section-form");
+        sectionsNav = document.getElementById("sectionsNav");
+        section_container = document.getElementById("section_container");
+     	add_task_form = document.getElementById("add_task_form");
+     	add_task_button = document.getElementById("add_task_button");
+     	assign_task_button = document.getElementById("assign_task_button");
+     	task_name = document.getElementById("task_name");
+     	task_description = document.getElementById("task_description");
+     	task_list = document.getElementById("task_list");
+     	task_due_date = document.getElementById("task_due_date");
+     	task_due_time = document.getElementById("task_due_time");
+		function handleSection(s){
+			assign_task_button.style.display="none";
+			add_task_button.style.display="block";
+			add_task_form.style.display="none";
+			activeSection=s;
+			let found_section=false;
+			console.log("handlesection",s);
+			add_section_form.style.display="none";
+            section_container.style.display="block";
+            for(i=0;i<section_container.children.length;i++){
+                if(section_container.children[i].id != s){
+                    section_container.children[i].style.display="none";
+                }
+                else{
+                    section_container.children[i].style.display="block";
+                    found_section=true;
+                }
+            }
+            if(found_section == false){
+            	arr = s.split("/");
+            	console.log("didn't find",arr);
+            	let new_list=`
+            		<ul class="collection with-header" id="${s}">
+            			<li class="collection-header">
+            				<h5>
+		                        ${arr[0]}
+		                        <span class="right">
+		                            <label>
+		                                <input type="checkbox" class="filled-in" onchange="selectAll()">
+		                                <span>All</span>
+		                            </label>
+		                        </span>
+		                    </h5>
+            			</li>
+            			<div>
+            				<li class="collection-item">
+	            				Just a moment... Loading list
+	            			</li>
+            			</div>
+            		</ul>
+            	`;
+            	section_container.innerHTML+=new_list;
+            	//console.log(new_list);
+            	let ajaxRequest = new XMLHttpRequest();
+            	let url=`/getlist?programme=${arr[0]}&year=${arr[1]}&section=${arr[2]}`;
+            	ajaxRequest.open("GET",url);
+            	ajaxRequest.send();
+            	ajaxRequest.onreadystatechange = function(){
+            		if(ajaxRequest.readyState == 4){
+            			console.log("got response")
+            			new_list = document.getElementById(`${s}`);
+            			students_list = JSON.parse(ajaxRequest.responseText);
+            			new_list.children[1].innerHTML="";
+            			for(i=0;i<students_list.length;i++){
+            				new_list.children[1].innerHTML+=`
+            					<li class="collection-item" id="${students_list[i].roll_no}">
+            						<label>
+				                        <input type="checkbox" class="filled-in">
+				                        <span>${students_list[i].roll_no}</span>
+				                    </label>
+				                    <span class="right">
+				                        ${students_list[i].first_name} ${students_list[i].last_name}
+				                    </span>
+            					</li>
+            				`;
+            			}
+            		}
+            	}
+            }
+		}
+		function addSection(){
+			console.log("addsection");
+			add_task_form.style.display="none";
+			add_task_button.style.display="none";
+			assign_task_button.style.display="none";
+            section_container.style.display="none";
+			add_section_form.style.display="block";
+		}
+		function handleNewSection(){
+            new_section_name = document.getElementById("section");
+            programme = document.getElementById("programme");
+            year = document.getElementById("year");
+            sectionsNav.innerHTML+=`<li onclick="handleSection('${new_section_name.value}')"><a href="#" class="tooltipped" data-position="bottom" data-tooltip="${programme.value} ${year.value}">${new_section_name.value}</a></li>`;
+			let ajaxRequest = new XMLHttpRequest();
+			let url = `/add_section?programme=${programme.value}&year=${year.value}&section=${new_section_name.value}`;
+            ajaxRequest.open("GET",url);
+            ajaxRequest.send();
+            ajaxRequest.onreadystatechange = function(){
+            	if(ajaxRequest.readyState == 4){
+            		console.log(ajaxRequest.responseText);
+            	}
+            };
+            handleSection(`${programme.value}/${year.value}/${new_section_name.value}`);
+            $('.tooltipped').tooltip();
+		}
+        function selectAll(){
+        	select_all_option = document.getElementById(activeSection).children[0].children[0].children[0].children[0].children[0];
+        	div = document.getElementById(activeSection).children[1];
+
+            if(select_all_option.checked == true){
+            	console.log("selectAll");
+            	for(i=0;i<div.children.length;i++){
+            		li = div.children[i];
+            		input = li.children[0].children[0];
+            		input.setAttribute("checked","true");
+            	}
+            }
+            else{
+                console.log("deselectAll");
+                for(i=0;i<div.children.length;i++){
+            		li = div.children[i];
+            		input = li.children[0].children[0];
+            		input.removeAttribute("checked");
+            	}
+            }
+        }
+        function add_task(){
+        	section_container.style.display="none";
+        	add_task_form.style.display="block";
+        	add_task_button.style.display="none";
+        	assign_task_button.style.display="block";
+        }
+        function assign_task(){
+        	console.log("assign_task");
+        	
+        	if(task_name.value == "")
+        		return;
+
+        	handleSection(activeSection);
+        	div = document.getElementById(activeSection).children[1];
+        	for(i=0;i<div.children.length;i++){
+        		li = div.children[i];
+            	input = li.children[0].children[0];
+            	roll_no = li.children[0].children[1].innerHTML;
+            	if(input.checked == true){
+            		teacher_socket.emit('assign_task',{
+            			roll_no: roll_no,
+            			task_name: task_name.value,
+            			task_description: task_description.value,
+            			task_list: task_list.value,
+            			task_due_date: task_due_date.value,
+            			task_due_time: task_due_time.value
+            		});
+            	}
+        	}
+        	task_name.value="";
+        	task_description.value="";
+        	task_due_date.value="";
+        	task_due_time.value="";
+        }
+	</script>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Teacher login</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+	<div class="container" style="margin-top: 50px;">
+		<form action="/teacher/login" method="POST">
+			<div class="row">
+				<div class="col s12">
+					<label for="username">Username</label>
+					<input type="text" name="username" id="username">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12">
+					<label for="password">Password</label>
+					<input type="password" name="password" id="password">
+				</div>
+			</div>
+			<div class="row">
+				<input type="submit" value="Login" class="btn">
+			</div>
+		</form>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+</body>
+</html>
