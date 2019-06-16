@@ -8,7 +8,7 @@ const Student = require('../models/student');
 const Teacher = require('../models/teacher');
 
 mongoose.Promise=global.Promise;
-mongoose.connect('mongodb://localhost/test',{useNewUrlParser:true});
+mongoose.connect('mongodb+srv://root:root@583@cluster0-qeklc.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true});
 mongoose.connection.once('open',function(){
 	console.log("established connection with database");
 }).on('error',function(err){
