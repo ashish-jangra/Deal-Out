@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Update Account</title>
+	<link rel="stylesheet" href="materialize.css">
+	<style type="text/css">
+		.column{
+			align-self: center;
+			margin-top: 20px;
+			position: relative;
+			left: 33%;
+			width: 33%;
+		}
+	</style>
+</head>
+<body>
+	<form class="container" method="POST" action="/update_account">
+		<center>
+			<h5>Update Your Account</h5>
+		</center>
+			<div class="column input-field">
+				<select id="programme" name="programme">
+    				<option value="" disabled selected>Select Programme</option>
+    				<option value="B.Tech" <% if(programme == "B.Tech") {%> selected <%}%> >B.Tech</option>
+    				<option value="M.Tech" <% if(programme == "M.Tech") {%> selected <%}%> >M.Tech</option>
+        		</select>
+			</div>
+			<div class="column">
+				<select id="year" name="year">
+    				<option value="" disabled selected>Select Year</option>
+    				<option value="1st year" <% if(year == "1st year") {%> selected <%}%> >1st year</option>
+    				<option value="2nd year" <% if(year == "2nd year") {%> selected <%}%> >2nd year</option>
+    				<option value="3rd year" <% if(year == "3rd year") {%> selected <%}%> >3rd year</option>
+    				<option value="4th year" <% if(year == "4th year") {%> selected <%}%> >4th year</option>
+        		</select>
+			</div>
+			<div class="column">
+				<select id="section" name="section">
+    				<option value="" disabled selected>Select section</option>
+    				<option value="IT-4" <% if(section == "IT-4"){%> selected <%}%>>IT-4</option>
+    				<option value="IT-5" <% if(section == "IT-5"){%> selected <%}%>>IT-5</option>
+    				<option value="IT-6" <% if(section == "IT-6"){%> selected <%}%>>IT-6</option>
+    			</select>
+			</div>
+			<div class="column">
+				<button class="btn column" onclick="submit()">
+					Submit
+				</button>
+			</div>
+	</form>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	<script>
+		$(document).ready(function(){
+		    $('select').formSelect();
+		    $('input.autocomplete').autocomplete({
+			    data: {
+			        "Apple": null,
+			        "Microsoft": null,
+			        "Google": 'https://placehold.it/250x250'
+			    },
+			});
+		});
+	</script>
+</body>
+</html>

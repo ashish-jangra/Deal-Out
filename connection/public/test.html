@@ -1,48 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Home</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<title>Test sortable</title>
     <style type="text/css">
-    	option{
-    		color: black;
-    	}
+
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
 </head>
 <body>
-	<div class="container">
-		<center><h5>Add your section</h5></center>
-    	<div class="row">
-    		<div class="input-field col l4">
-    			<select name="">
-    				<option value="B.Tech">B.Tech</option>
-    			</select>
-    		</div>
-    		<div class="input-field col l4">
-    			<select name="year" class="dropdown-trigger">
-    				<option value="1">1st year</option>
-    				<option value="2">2nd year</option>
-    				<option value="3">3rd year</option>
-    				<option value="4">4th year</option>
-    			</select>
-    		</div>
-    		<div class="input-field col l4">
-    			<select name="section" multiple class="dropdown-trigger">
-    				<option value="" disabled selected>Choose section</option>
-    				<option value="IT-4">IT-4</option>
-    				<option value="IT-5">IT-5</option>
-    				<option value="IT-6">IT-6</option>
-    			</select>
-    		</div>
-    	</div>
-	</div>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-    	$(document).ready(function(){
-		    $('select').formSelect();
-		});
-    </script>
+    <div class="container">
+        <center><h4>Test sortable list</h4></center>
+        <ul class="collection with-header" id="list">
+            <!-- <li class="collection-header">Heading</li> -->
+            <li class="collection-item ui-state-default"> <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> Apple</li>
+            <li class="collection-item ui-state-default"> <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> Orange</li>
+            <li class="collection-item ui-state-default"> <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> Banana</li>
+            <li class="collection-item ui-state-default"> <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> Mango</li>
+            <li class="collection-item ui-state-default"> <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> Grapes</li>
+            <li class="collection-item ui-state-default"> <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> Litchi</li>
+
+        </ul>
+    </div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>   
 </body>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $("#list").sortable();
+    $("#list").disableSelection();
+</script>
 </html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Sortable</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<style type="text/css">
+		i{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<center><h5>Sortable list</h5></center>
+		<ul class="collection with-header">
+			<li class="collection-header">Tasks</li>
+			<div>
+				<li class="collection-item">
+					Buy milk
+					<i class="material-icons right" onclick="handleRemove(event)">close</i>
+				</li>
+				<li class="collection-item">
+					Code
+					<i class="material-icons right" onclick="handleRemove(event)">close</i>
+				</li>
+				<li class="collection-item">
+					Develop projects
+					<i class="material-icons right" onclick="handleRemove(event)">close</i>
+				</li>
+			</div>
+		</ul>
+	</div>
+	<div class="container footer input-field">
+		<input type="text" onkeyup="handleKeyUp(event)" id="input">
+	</div>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script>
+  		$(document).ready(function(){
+	  		$('ul div').sortable({containment: "parent", axis: "y"});
+	  		$('ul div').disableSelection();
+	  	});
+	  	ul = document.getElementsByTagName("ul")[0];
+	  	function handleKeyUp(event){
+	  		if(event.keyCode == 13){
+	  			new_list_item = event.target.value;
+		  		if(new_list_item != ""){
+		  			ul.children[1].innerHTML += `
+		  				<li class = " collection-item">
+		  					${new_list_item}
+		  					<i class="material-icons right" onclick="handleRemove(event)">close</i>
+		  				</li>
+		  			`;
+		  		}
+		  		event.target.value = "";
+	  		}
+	  	}
+	  	li = document.getElementsByTagName("li");
+	  	for(i=1; i< li.length; i++){
+	  		item = li[i];
+	  		item.addEventListener("wheel",function(event){
+	  			console.log("wheel ",event.target.innerHTML);
+	  		});
+	  	}
+	  	function handleRemove(event){
+	  		console.log(event.target.parentElement);
+	  		parent = event.target.parentElement;
+	  		console.log(parent.parentElement);
+	  		ul.children[1].removeChild(event.target.parentElement);
+	  	}
+  	</script>
+</body>
+</html>

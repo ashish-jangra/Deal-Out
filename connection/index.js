@@ -34,14 +34,24 @@ const server = app.listen(4000,function(err) {
 		console.log("setup server at port 4000");
 });
 
-const sessAuthChecker = function(req,res,next){
-	console.log('inside sessAuthChecker',req.session.user);
-	if(req.session.user){
-		next();
-	}
-	else{
+// app.use(function(req,res){
+// 	if(!req.session && req.cookies){
+// 		req.clearCookies();
+// 	}
+// });
+
+function studentSessAuthChecker(req,res,next){
+	if(!req.session.user || req.session.user.type != "student")
 		res.redirect('/');
-	}
+	else
+		next();
+}
+
+function teacherSessAuthChecker(req,res,next){
+	if(!req.session.user || req.session.user.type != "teacher")
+		res.redirect('/teacher-login');
+	else
+		next();
 }
 
 app.get('/teacher-login',function(req,res){
@@ -51,7 +61,70 @@ app.get('/teacher-login',function(req,res){
 //app.use(sessAuthChecker);
 
 app.get('/',function(req,res){
-	res.sendFile(__dirname+"/public/login.html");
+	if(req.session.user){
+		if(req.session.user.type == "student"){
+			console.log("student");
+			res.redirect('/student/home');
+		}
+		else if(req.session.user.type == "teacher"){
+			console.log("teacher");
+			res.redirect('/teacher/home');
+		}
+	}
+	else{
+		console.log("let's begin");
+		res.sendFile(__dirname+"/public/login.html");
+	}
+});
+
+app.get('/update_account',studentSessAuthChecker,function(req,res){
+	Student.findById(req.session.user.id).then(function(result){
+		if(result){
+			res.render('update_account',result);
+		}
+		else{
+			res.redirect('/');
+		}
+	});
+});
+
+app.post('/update_account', studentSessAuthChecker,function(req,res){
+	Student.findById(req.session.user.id).then(function(result){
+		if(result){
+			result.programme = req.body.programme;
+			result.year = req.body.year;
+			result.section = req.body.section;
+			result.save(function(){
+				console.log("successful update_account");
+			});
+		}
+		else{
+			console.log("can't update_account for",req.session.user.id);
+		}
+	});
+	res.redirect('/student/home');
+});
+
+app.get('/student/home',function(req,res){
+	if(!req.session.user){
+		console.log("no session");
+		res.redirect('/');
+	}
+	else if(req.session.user.type != "student"){
+		res.redirect("/");
+	}
+	else{
+		Student.findById(req.session.user.id).then(function(result){
+			//console.log("result",result);
+			if(result){
+				res.render('student_home',{tasks_lists: result.tasks_lists, roll_no: result.roll_no, first_name: result.first_name, last_name: result.last_name, email: result.username});
+			}
+			else{
+				console.log("invalid id",req.session.user.id);
+				res.redirect("/");
+			}
+		})
+	}
 });
 
 app.post('/student/login',function(req,res){
@@ -62,7 +135,7 @@ app.post('/student/login',function(req,res){
 			//console.log(result);
 			req.session.user = {type: "student", id: result._id};
 			//console.log("task id: ",result.tasks_lists[0].tasks[0]._id);
-			res.render('student_home',{tasks_lists: result.tasks_lists, roll_no: result.roll_no, first_name: result.first_name, last_name: result.last_name, email: result.username});
+			res.redirect('/student/home');
 		}
 		else
 			res.redirect('/');
@@ -84,7 +157,7 @@ app.post('/student/signup',function(req,res){
 	student.save().then(function(){
 		console.log("successfully signed up");
 		req.session.user = {type: "student", id: student._id};
-		res.render('student_home',{tasks_lists: student.tasks_lists, roll_no: student.roll_no, first_name: student.first_name, last_name: student.last_name, email: student.username})
+		res.redirect('/student/home');
 	});
 });
 
@@ -106,7 +179,7 @@ app.post('/teacher/signup',function(req,res){
 			teacher.save(function(){
 				console.log("signed up teacher");
 				req.session.user = {type: "teacher", id: teacher._id};
-				res.render('teacher_home',{sections: [], email: teacher.username});
+				res.redirect('/teacher/home');
 			});
 		}
 	})
@@ -116,11 +189,26 @@ app.post('/teacher/login',function(req,res){
 	Teacher.findOne({username: req.body.username, password: req.body.password}).then(function(result){
 		if(result){
 			req.session.user = {type: "teacher", id: result._id};
-			res.render('teacher_home',{sections: result.sections, email: result.username});
+			res.redirect('/teacher/home');
 		}
 		else{
 			console.log("invalid teacher login credentials");
 			res.redirect('/teacher-login');
+		}
+	});
+});
+
+app.get('/teacher_avatar',function(req,res){
+	res.sendFile(__dirname+"/public/teacher_avatar.jpg");
+});
+
+app.get('/teacher/home',teacherSessAuthChecker,function(req,res){
+	Teacher.findById(req.session.user.id).then(function(result){
+		if(result){
+			res.render('teacher_home',{sections: result.sections, email: result.username, first_name: result.first_name, last_name: result.last_name});	
+		}
+		else{
+			res.redirect('/');
 		}
 	});
 });
@@ -136,6 +224,7 @@ app.get('/teacher-signup',function(req,res){
 });
 
 app.get('/logout',function(req,res){
+	console.log("logout ",req.session.user.username);
 	req.session.destroy();
 	res.redirect('/');
 });
@@ -179,7 +268,7 @@ app.get("/add_section",function(req,res){
 				console.log("add section request",new_section);
 				result.sections = [new_section, ...result.sections];
 				result.save(function(){
-					console.log("added section",result.sections[result.sections.length-1]);
+					console.log("added section",result.sections[0]);
 					res.send("added section");
 				});
 			});
@@ -245,24 +334,25 @@ app.get('/add_quick_task',function(req,res){
 });
 
 app.get('/change_task_status',function(req,res){
-	console.log(req.query);
+	console.log("change_task_status",req.query);
 	if(req.session.user){
 		Student.findById(req.session.user.id).then(function(result){
 			if(result){
-				console.log("valid user");
+				//console.log("valid user");
 				for(i=0;i<result.tasks_lists.length;i++){
 					if(result.tasks_lists[i].list_name == req.query.list_name){
 						//console.log("found correct tasks-list");
 						for(j=0;j<result.tasks_lists[i].tasks.length;j++){
+							//console.log("compare",req.query.task_name,result.tasks_lists[i].tasks[j]._id);
 							if(result.tasks_lists[i].tasks[j]._id == req.query.task_name){
 								//console.log("found exact match");
 								result.tasks_lists[i].tasks[j].task_status = req.query.new_status;
 								result.save(function(){
-									//console.log("changed status of task");
+									console.log("changed status of task");
 									res.send("changed status of task");
 								});
+								break;
 							}
-							break;
 						}
 						break;
 					}

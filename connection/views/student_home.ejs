@@ -2,7 +2,7 @@
     <head>
         <title>ToDo</title>
         <!-- Compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="/materialize.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <style>
             .input-field input[type=text]:focus {
@@ -40,7 +40,7 @@
             }
         </style>
     </head>
-    <body>
+    <body style="overflow-y: auto;">
         <div id="add_task_button">
             <button class="btn-floating btn-large" style="position: fixed; bottom: 40px;right: 20px;" onclick="add_task()">
                 <i class="material-icons">add</i>
@@ -71,7 +71,7 @@
             </nav>
         </div>
         <div id="task_container">
-            <div id="body" style="max-height:500px; overflow-y: scroll; overflow-x:hidden;">
+            <div id="body" style="max-height:500px; overflow-y: auto; overflow-x:hidden;">
                 <% for(i=0; i < tasks_lists.length; i++) { %>
                     <div class="container taskslist" id="<%= tasks_lists[i].list_name %>" <% if(i>0) { %>style="display:none"<% } %>>
                         <ul class="collection with-header" id="tasks-ul">
@@ -115,7 +115,7 @@
                 <% } %>
             </div>
         </div>
-        <div class="container footer" style="">
+        <div class="container footer">
             <div class="input-field">
                 <label for="quick-task-title">Enter a new task title</label>
                 <input type="text" id="quick-task-title" placeholder="">
@@ -155,12 +155,12 @@
         </div>
         <div class="container" id="add_task_form" style="display: none;">
             <div class="background grey darken-3">
-              <div style="height: 70px; margin-top: 40px;"></div>
+              <div style="height: 70px; margin-top: 8px;"></div>
               <div class="row">
                 <div class="input-field col s12" style="margin-bottom:30px">
                   <i class="material-icons prefix" style="color: white">title</i>
                   <label for="task_name">Task Name</label>
-                  <input type="text" name="task_name" id="task_name" class="validate" required>
+                  <input type="text" style="color: #ffffff;" name="task_name" id="task_name" class="validate" required>
                 </div>
               </div>
             </div>
@@ -195,13 +195,30 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
         <script src="/index.js"></script>
         <!-- Compiled and minified JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>    
         <script>
             $(document).ready(function(){
                 $('.sidenav').sidenav();
                 $('.datepicker').datepicker();
-                $('.timepicker').timepicker();                
+                $('.timepicker').timepicker();
+                $('ul div').sortable({
+                    containment : "parent",
+                    axis : "y",
+                    cancel : "p,span,i",
+                    cursor : "grabbing",
+                    stop : function(event,ui){
+                        console.log("sort ended",ui);
+                    }
+                });
+                $('ul div').disableSelection();
+                $('ul#tasksNav').sortable({
+                    containment : "parent",
+                    axis : "x",
+                    cancel : "i"
+                });
+                $('ul#tasksNav').disableSelection();
             });
         </script>
     </body>
@@ -293,7 +310,7 @@
             document.getElementById(s).style="display:block";
             for(i=0;i<divs.length;i++){
                 if(divs[i].id!=s){
-                    divs[i].style="display:none";
+                    divs[i].style.display="none";
                 }
             }
         }
@@ -415,7 +432,7 @@
         function complete_task(task_id){
             console.log("strike",task_id);
             label = document.getElementById(task_id);
-            console.log("check label",label);
+            //console.log("check label",label);
             let att = document.createAttribute("checked");
             input = label.children[0];
             span = label.children[1];
@@ -451,7 +468,7 @@
             document.getElementsByClassName("footer")[0].style.display="none";
             document.getElementById("body").style.display="none;";
             document.getElementById("add_task_button").style.display="none;";
-            document.getElementById("update_task_button").style.display="block;";
+            document.getElementById("update_task_button").style.display="block";
             //console.log("add a detailed task");
             for(i=0;i<divs.length;i++)
                 divs[i].style.display="none";
@@ -472,7 +489,7 @@
             document.getElementById("task_container").style="display:none;";
             document.getElementsByClassName("footer")[0].style="display:none;";
             document.getElementById("add_task_button").style="display:none;";
-            document.getElementById("update_task_button").style="display:block;";
+            document.getElementById("update_task_button").style.display="block";
             document.getElementById("add_task_form").style="display:block;";
             for(i=0;i<tasks_lists.length;i++){
                 for(j=0;j<tasks_lists[i].tasks.length;j++){
@@ -599,6 +616,7 @@
                 `;
                 let tlist = document.getElementById(activeListId).children[0];
                 tlc= tlist.children[1];
+                //console.log(tlc.innerHTML);
                 tlc.innerHTML = new_task+tlc.innerHTML;
                 url=`/add_task?task_name=${task_name.value}&task_description=${task_description.value}&task_list=${task_list.value}&task_due_date=${task_due_date.value}&task_due_time=${task_due_time.value}`;
                 ajaxRequest.temp_id = new_task_id;

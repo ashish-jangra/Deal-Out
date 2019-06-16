@@ -8,7 +8,7 @@
             
         </style>
     </head>
-	<body>
+	<body style="overflow: auto;">
 		<div class="navbar-fixed">
             <nav class="nav-wraper grey darken-3">
                 <a href="#" data-target="slide-out" class="left sidenav-trigger" style="display:block">
@@ -21,7 +21,7 @@
                     </a>
                     <ul class="right hide-on-small-only" id="sectionsNav">
                     	<%for(i=0;i<sections.length;i++){%>
-                        	<li onclick="handleSection('<%= sections[i].programme %>/<%= sections[i].year %>/<%= sections[i].name %>')"><a href="#" class="tooltipped" data-position="bottom" data-tooltip="<%= sections[i].programme %> <%= sections[i].year %>"><%= sections[i].name%></a></li>
+                        	<li onclick="handleSection('<%= sections[i].programme %>/<%= sections[i].year %>/<%= sections[i].name %>')"><a href="#" class="tooltipped" data-position="left" data-tooltip="<%= sections[i].programme %> <%= sections[i].year %>"><%= sections[i].name%></a></li>
                         <%}%>
                         <li onclick="addSection()" style="float:right"><a href="#" class="circle"><i class="material-icons circle">add</i></a></li>
                     </ul>
@@ -35,9 +35,9 @@
             <li><div class="user-view">
             <div class="background" style="background:#424242">
             </div>
-            <a href="#user"><img class="circle" src="img_avatar.png" /></a>
-            <a href="#name"><span class="white-text name">John Doe</span></a>
-            <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+            <a href="#user"><img class="circle" src="/teacher_avatar" /></a>
+            <a href="#name"><span class="white-text name"><%= first_name%> <%=last_name%></span></a>
+            <a href="#email"><span class="white-text email"><%= email %></span></a>
             </div></li>
             <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
             <li><a href="#!">Second Link</a></li>
@@ -259,7 +259,7 @@
         function selectAll(){
         	select_all_option = document.getElementById(activeSection).children[0].children[0].children[0].children[0].children[0];
         	div = document.getElementById(activeSection).children[1];
-
+            console.log(div);
             if(select_all_option.checked == true){
             	console.log("selectAll");
             	for(i=0;i<div.children.length;i++){
