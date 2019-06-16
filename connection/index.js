@@ -27,7 +27,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
-const server = app.listen(4000,function(err) {
+const port = process.env.PORT || 4000;
+
+const server = app.listen(port,function(err) {
 	if(err)
 		console.log("error setting up server");
 	else
